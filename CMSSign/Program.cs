@@ -26,6 +26,10 @@ namespace CMSSign
             {
                 IncludeOption = X509IncludeOption.None
             };
+
+            cmsSigner.DigestAlgorithm = new Oid("1.3.14.3.2.26"); //SHA1
+            //cmsSigner.DigestAlgorithm = new Oid(" 2.16.840.1.101.3.4.2.1"); //SHA256
+
             //cmsSigner.SignedAttributes.Add(new Pkcs9SigningTime());
             cmsSigner.SignedAttributes.Add(new AsnEncodedData(new Oid("2.16.840.1.113733.1.9.2"), new DerPrintableString("3", true).GetDerEncoded()));
             if (args.Length == 10)
