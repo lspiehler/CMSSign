@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CMSSign": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\lyas\\Desktop\\ca.pfx Welcome1 C:\\Users\\lyas\\Desktop\\data.p7b F1219A8B4E448A4CB10949C48C0EF9C1 4BC5F0A75C7B9C5863E5658D53BB4357 7a784e4804bf5a676bd934d3ba44807f1a93afb6 C:\\Users\\lyas\\Desktop\\scep_lyas.resp"
+    }
+  }
+}
