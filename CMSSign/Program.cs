@@ -84,7 +84,8 @@ namespace CMSSign
                     //X509Certificate x509 = new X509Certificate.CreateFromCertFile("C:\\Users\\ls12943\\Desktop\\ca.key");
                     //x509.CreateFromCertFile(certBytes);
                     //byte[] fileBytes = File.ReadAllBytes(args[0]);
-                    X509Certificate2 certificate = new X509Certificate2(args[0], args[1], X509KeyStorageFlags.PersistKeySet);
+                    X509Certificate2 certificate = X509CertificateLoader.LoadPkcs12FromFile(args[0], args[1], X509KeyStorageFlags.PersistKeySet);
+                    //X509Certificate2 certificate = new X509Certificate2(args[0], args[1], X509KeyStorageFlags.PersistKeySet);
                     //X509Certificate2 certificate = new X509Certificate2(temp.Export(X509ContentType.Pfx));
                     byte[] encoded = SignFile(fileBytes, certificate, args);
 
