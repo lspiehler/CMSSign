@@ -27,12 +27,20 @@ namespace CMSSign
                 IncludeOption = X509IncludeOption.None
             };
 
-            cmsSigner.DigestAlgorithm = new Oid("1.3.14.3.2.26"); //SHA1
-            //cmsSigner.DigestAlgorithm = new Oid(" 2.16.840.1.101.3.4.2.1"); //SHA256
+            //sign with the digest the client used in its request (passed as the
+            //final argument by the caller); default to SHA-256.
+            string digestOid;
+            switch (args[args.Length - 1])
+            {
+                case "sha1": digestOid = "1.3.14.3.2.26"; break; //SHA1
+                case "sha512": digestOid = "2.16.840.1.101.3.4.2.3"; break; //SHA512
+                default: digestOid = "2.16.840.1.101.3.4.2.1"; break; //SHA256
+            }
+            cmsSigner.DigestAlgorithm = new Oid(digestOid);
 
             //cmsSigner.SignedAttributes.Add(new Pkcs9SigningTime());
             cmsSigner.SignedAttributes.Add(new AsnEncodedData(new Oid("2.16.840.1.113733.1.9.2"), new DerPrintableString("3", true).GetDerEncoded()));
-            if (args.Length == 10)
+            if (args.Length == 11)
             {
                 //System.Console.WriteLine("We're here");
                 cmsSigner.SignedAttributes.Add(new AsnEncodedData(new Oid("2.16.840.1.113733.1.9.3"), new DerPrintableString(args[7].ToString(), true).GetDerEncoded()));
