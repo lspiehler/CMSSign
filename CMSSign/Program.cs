@@ -22,9 +22,11 @@ namespace CMSSign
             //System.Console.WriteLine(verificationCert.Subject);
             ContentInfo contentInfo = new ContentInfo(fileContent);
             SignedCms signedCMS = new SignedCms(contentInfo);
+            //include the RA signing certificate in the SignedData certificates field; some clients
+            //(e.g. Mocana in Extreme Fabric Engine) only look for the signer's certificate there
             CmsSigner cmsSigner = new CmsSigner(SubjectIdentifierType.IssuerAndSerialNumber, verificationCert)
             {
-                IncludeOption = X509IncludeOption.None
+                IncludeOption = X509IncludeOption.EndCertOnly
             };
 
             //sign with the digest the client used in its request (passed as the
