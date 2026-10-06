@@ -66,8 +66,8 @@ namespace CMSSign
             }
             catch (Exception e)
             {
-                System.Console.WriteLine(e.ToString());
-                return new byte[0];
+                //don't return an empty signature; let Main report the failure
+                throw new Exception("Unable to compute the CMS signature: " + e.Message, e);
             }
             //System.Console.WriteLine("got here 2");
             byte[] encoded = signedCMS.Encode();
@@ -80,7 +80,7 @@ namespace CMSSign
         {
             if (args.Length == 0)
             {
-                System.Console.WriteLine("Please enter a numeric argument.");
+                System.Console.Error.WriteLine("No arguments provided");
                 return 1;
             }
             else
@@ -106,13 +106,28 @@ namespace CMSSign
                         }
                     }
                 }
+                else
+                {
+                    System.Console.Error.WriteLine("PFX file not found: " + args[0]);
+                    return 1;
+                }
                 return 0;
             }
         }
 
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            TestFunc(args);
+            try
+            {
+                return TestFunc(args);
+            }
+            catch (Exception e)
+            {
+                //report only the exception type and message on stderr, never the arguments
+                //(they include the PFX password) or a stack trace; the caller logs this text
+                System.Console.Error.WriteLine(e.GetType().Name + ": " + e.Message);
+                return 1;
+            }
             //System.Console.ReadLine();
         }
     }
